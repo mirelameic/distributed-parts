@@ -1,4 +1,7 @@
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,8 +22,20 @@ public class PartRepositoryImpl extends UnicastRemoteObject implements PartRepos
     }
 
     public Part getPart(String code) throws RemoteException{
-        return parts.get(code);
+        // Obter informações de conexão do servidor que possui a peça
+        String serverAddress = ServerRegistry.getServerAddress(code);
+        try{
+            // Estabelecer conexão com o servidor que possui a peça
+            Registry registry = LocateRegistry.getRegistry(serverAddress);
+            PartRepository remoteRepository = (PartRepository) registry.lookup(code);
+            // Solicitar a peça ao servidor remoto
+            return remoteRepository.getPart(code);
+        }catch (NotBoundException | RemoteException e){
+            e.printStackTrace();
+            throw new RemoteException("Failed to retrieve part from remote repository.");
+        }
     }
+
 
     public List<Part> getAllParts() throws RemoteException{
         return new ArrayList<Part>(parts.values());

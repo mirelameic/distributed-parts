@@ -6,7 +6,6 @@ Projeto da disciplina de Sistemas Distribuidos (EACH-USP).  Sistema de informaç
 
 - `src`: pasta com arquivos .java
 - `bin`: pasta com arquivos .class
-- `lib`: pasta para as dependências
 
 ## Arquivos
 - `Part`:
@@ -17,8 +16,10 @@ Projeto da disciplina de Sistemas Distribuidos (EACH-USP).  Sistema de informaç
   Interface que estende a interface "Remote" da biblioteca Java RMI. Ela define métodos remotos que podem ser invocados para manipular um repositório de partes. A interface possui métodos para adicionar uma parte, obter uma parte com base em um código e obter todas as partes armazenadas no repositório. Essa interface permite a comunicação remota para gerenciar um repositório de partes através do Java RMI.
 - `PartRepositoryImpl`:
   Implementa os métodos definidos na interface "PartRepository" e retorna os valores dos campos correspondentes quando esses métodos são invocados.
+- `UserInterface`:
 - `Server`:
   Representa um servidor que cria e disponibiliza um repositório de partes remotamente através do Java RMI.
+- `ServerRegistry`:
 - `Client`:
   Representa um cliente que se conecta a um repositório de partes remoto e executa operações como adicionar partes, recuperar partes específicas e obter todas as partes do repositório.
 
@@ -34,11 +35,11 @@ Projeto da disciplina de Sistemas Distribuidos (EACH-USP).  Sistema de informaç
   ~~~ 
   $ cd bin; rmiregistry
   ~~~
-  - Abra outro terminal e troque <repository_name> pelo nome do repositóirio:
+  - Abra outro terminal. Troque <server_name> pelo nome do servidor e <port> pelo número da porta que irá se conectar:
   ~~~
-  $ java -cp bin Server <repository_name>
+  $ java -cp bin Server <server_name> <port>
   ~~~
-  - Abra outro terminal e troque <repository_name> pelo mesmo nome usado acima:
+  - Abra outro terminal. Troque <server_name> pelo nome do server que deseja se conectar:
   ~~~
-  $ java -cp bin Client <repository_name>
+  $ java -cp bin Client <server_name>
   ~~~
