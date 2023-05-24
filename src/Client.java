@@ -58,20 +58,12 @@ public class Client {
             userInterface.displayError("Client exception:", e);
         }
     }
-
-    private static void initialize(String serverName) throws Exception {
-        String serverAddress = ServerRegistry.getInstance().getServerAddress(serverName);
-        ServerRegistry.getInstance().printRegisteredServers();
-        System.out.println(serverAddress);
     
-        if (serverAddress != null) {
-            String serverURL = "//" + serverAddress + "/" + serverName;
-            currentRepository = (PartRepository) Naming.lookup(serverURL);
-        } else {
-            throw new Exception("Repository not found: " + serverName);
-        }
+    public static void initialize(String serverName) throws Exception{
+        String serverURL = "//localhost/" + serverName;  // Assume que o servidor está sendo executado localmente
+        currentRepository = (PartRepository) Naming.lookup(serverURL);
+        UserInterface.displayMessage("Connected to repository: " + serverName);
     }
-    
 
     private static void listParts() throws Exception {
         List<Part> allParts = currentRepository.getAllParts();
