@@ -17,9 +17,9 @@ Projeto da disciplina de Sistemas Distribuidos (EACH-USP).  Sistema de informaç
 - `PartRepositoryImpl`:
   Implementa os métodos definidos na interface "PartRepository" e retorna os valores dos campos correspondentes quando esses métodos são invocados.
 - `UserInterface`:
+  Responsável por interagir com o usuário, exibir mensagens no console e obter comandos de entrada do usuário. Ela fornece métodos simples para exibir mensagens, ler comandos e lidar com erros de exceção.
 - `Server`:
   Representa um servidor que cria e disponibiliza um repositório de partes remotamente através do Java RMI.
-- `ServerRegistry`:
 - `Client`:
   Representa um cliente que se conecta a um repositório de partes remoto e executa operações como adicionar partes, recuperar partes específicas e obter todas as partes do repositório.
 

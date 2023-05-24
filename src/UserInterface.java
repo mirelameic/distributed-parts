@@ -1,13 +1,13 @@
 import java.util.Scanner;
 
 public class UserInterface {
-    private Scanner scanner;
+    private static Scanner scanner;
 
     public UserInterface() {
         scanner = new Scanner(System.in);
     }
 
-    public String getUserCommand() {
+    public static String getUserCommand() {
         System.out.print("> ");
         return scanner.nextLine().trim();
     }
@@ -16,7 +16,7 @@ public class UserInterface {
         System.out.println(message);
     }
 
-    public void displayError(String errorMessage, Exception exception) {
+    public static void displayError(String errorMessage, Exception exception) {
         System.err.println(errorMessage);
         exception.printStackTrace();
     }

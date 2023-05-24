@@ -48,6 +48,7 @@ public class Client {
                     addPart();
                 } else if (command.equals("quit")) {
                     running = false;
+                    return;
                 } else {
                     UserInterface.displayMessage("Invalid command.");
                 }
@@ -60,7 +61,8 @@ public class Client {
     }
     
     public static void initialize(String serverName) throws Exception{
-        String serverURL = "//localhost/" + serverName;  // Assume que o servidor está sendo executado localmente
+        // Assume que o servidor está sendo executado localmente
+        String serverURL = "//localhost/" + serverName;
         currentRepository = (PartRepository) Naming.lookup(serverURL);
         UserInterface.displayMessage("Connected to repository: " + serverName);
     }
@@ -118,6 +120,19 @@ public class Client {
     }
 
     private static void addPart() {
-        // Implement the logic to add a new part to the current repository
+        UserInterface.displayMessage("Enter the name of the new part:");
+        String name = UserInterface.getUserCommand();
+
+        UserInterface.displayMessage("Enter the description of the new part:");
+        String description = UserInterface.getUserCommand();
+
+        try {
+            Part newPart = new PartImpl(name, description);
+            currentRepository.addPart(newPart);
+            currentPart = newPart;
+            UserInterface.displayMessage("New part added with code: " + newPart.getCode());
+        } catch (Exception e) {
+            UserInterface.displayError("Error adding the part:", e);
+        }
     }
 }
