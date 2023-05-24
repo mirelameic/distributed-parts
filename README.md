@@ -10,12 +10,17 @@ Projeto da disciplina de Sistemas Distribuidos (EACH-USP).  Sistema de informaç
 
 ## Arquivos
 - `Part`:
+  Interface chamada "Part" que estende a interface "Remote" da biblioteca Java RMI. Ela define métodos remotos que podem ser invocados em objetos distribuídos. A interface possui métodos para obter o código, nome e descrição de uma parte, bem como uma lista de seus subcomponentes. Essa interface permite a comunicação remota entre objetos que implementam a interface "Part" e os clientes que desejam acessar esses objetos remotamente.
 - `PartImpl`:
+  Implementa os métodos definidos na interface "Part" e retorna os valores dos campos correspondentes quando esses métodos são invocados.
 - `PartRepository`:
+  Interface que estende a interface "Remote" da biblioteca Java RMI. Ela define métodos remotos que podem ser invocados para manipular um repositório de partes. A interface possui métodos para adicionar uma parte, obter uma parte com base em um código e obter todas as partes armazenadas no repositório. Essa interface permite a comunicação remota para gerenciar um repositório de partes através do Java RMI.
 - `PartRepositoryImpl`:
-- `SubPart`:
+  Implementa os métodos definidos na interface "PartRepository" e retorna os valores dos campos correspondentes quando esses métodos são invocados.
 - `Server`:
-- `Client`: 
+  Representa um servidor que cria e disponibiliza um repositório de partes remotamente através do Java RMI.
+- `Client`:
+  Representa um cliente que se conecta a um repositório de partes remoto e executa operações como adicionar partes, recuperar partes específicas e obter todas as partes do repositório.
 
 
 #

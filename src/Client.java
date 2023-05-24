@@ -1,5 +1,4 @@
 import java.rmi.Naming;
-import java.rmi.RemoteException;
 import java.util.List;
 
 public class Client {
@@ -13,21 +12,13 @@ public class Client {
 
         try {
             PartRepository repository = (PartRepository) Naming.lookup(repositoryName);
-            
-            // Agora você pode usar os métodos remotos do repositório
-            // por exemplo, adicionar uma peça
-            Part part = new PartImpl("P1", "Peça 1", "Descrição da Peça 1");
+            Part part = new PartImpl("Peça 1", "Descrição da Peça 1");
             repository.addPart(part);
             
-            // Recuperar uma peça pelo código
-            Part retrievedPart = repository.getPart("P1");
-            System.out.println("Retrieved Part: " + retrievedPart.getName());
-            
-            // Obter todas as peças do repositório
             List<Part> allParts = repository.getAllParts();
             System.out.println("All Parts:");
             for (Part p : allParts) {
-                System.out.println(p.getName());
+                System.out.println(p.getCode());
             }
         } catch (Exception e) {
             System.err.println("Client exception:");

@@ -1,19 +1,24 @@
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 public class PartImpl extends UnicastRemoteObject implements Part{
     private String code;
     private String name;
     private String description;
-    private List<SubPart> subComponents;
+    private Map<Part, Integer> subParts;
 
-    public PartImpl(String code, String name, String description) throws RemoteException{
-        this.code = code;
+    public PartImpl(String name, String description) throws RemoteException{
+        this.code = generateUniqueCode();
         this.name = name;
         this.description = description;
-        this.subComponents = new ArrayList<SubPart>();
+        this.subParts = new HashMap<Part, Integer>();
+    }
+
+    private String generateUniqueCode() {
+        return UUID.randomUUID().toString();
     }
 
     public String getCode(){
@@ -28,7 +33,7 @@ public class PartImpl extends UnicastRemoteObject implements Part{
         return description;
     }
 
-    public List<SubPart> getSubComponents(){
-        return subComponents;
+    public Map<Part, Integer> getSubParts(){
+        return subParts;
     }
 }
