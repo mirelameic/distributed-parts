@@ -1,18 +1,19 @@
 import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PartImpl implements Part{
+public class PartImpl extends UnicastRemoteObject implements Part{
     private String code;
     private String name;
     private String description;
-    private List<SubComponent> subComponents;
+    private List<SubPart> subComponents;
 
-    public PartImpl(String code, String name, String description){
+    public PartImpl(String code, String name, String description) throws RemoteException{
         this.code = code;
         this.name = name;
         this.description = description;
-        this.subComponents = subComponents;
+        this.subComponents = new ArrayList<SubPart>();
     }
 
     public String getCode(){
@@ -27,7 +28,7 @@ public class PartImpl implements Part{
         return description;
     }
 
-    public List<SubComponent> getSubComponents(){
+    public List<SubPart> getSubComponents(){
         return subComponents;
     }
 }

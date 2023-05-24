@@ -6,5 +6,5 @@ public interface Part extends Remote{
     String getCode() throws RemoteException;
     String getName() throws RemoteException;
     String getDescription() throws RemoteException;
-    List<SubComponent> getSubComponents() throws RemoteException;
+    List<SubPart> getSubComponents() throws RemoteException;
 }

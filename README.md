@@ -2,9 +2,38 @@
 
 Projeto da disciplina de Sistemas Distribuidos (EACH-USP).  Sistema de informações sobre peças ou componentes (parts) usando Remote Method Invocation (RMI) e Java.
 
-## EStrutura
+## Estrutura
 
-- `src`: the folder to maintain sources
-- `lib`: the folder to maintain dependencies
+- `src`: pasta com arquivos .java
+- `bin`: pasta com arquivos .class
+- `lib`: pasta para as dependências
 
-Meanwhile, the compiled output files will be generated in the `bin` folder by default.
+## Arquivos
+- `Part`:
+- `PartImpl`:
+- `PartRepository`:
+- `PartRepositoryImpl`:
+- `SubPart`:
+- `Server`:
+- `Client`: 
+
+
+#
+## Compilar
+- dentro da pasta `distributed-partes`, execute o comando:
+  ~~~ 
+  $ javac -d bin src/*.java
+  ~~~
+## Executar
+- dentro da pasta `distributed-partes`, execute os seguintes comandos:
+  ~~~ 
+  $ cd bin; rmiregistry
+  ~~~
+  - Abra outro terminal e troque <repository_name> pelo nome do repositóirio:
+  ~~~
+  $ java -cp bin Server <repository_name>
+  ~~~
+  - Abra outro terminal e troque <repository_name> pelo mesmo nome usado acima:
+  ~~~
+  $ java -cp bin Client <repository_name>
+  ~~~
