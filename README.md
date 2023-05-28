@@ -2,7 +2,7 @@
 
     Projeto da disciplina de Sistemas Distribuidos (EACH-USP)
 Sistema de informações sobre componentes (parts) usando Remote Method Invocation (RMI) e Java.
-PartRepository é um objeto distribuı́do, que será exposto por um processo servidor e que implementa um repositório de informações sobre peças. Os clientes se conectam a servidores que possuem uma instância de PartRepository. O servidor, por sua vez, implementa 2 tipos de objetos o PartRepository (que é uma interface de acesso) e Parts (vários objetos remotos armazenados no servidor).
+PartRepository é um objeto distribuı́do, que será exposto por um processo servidor e que implementa um repositório de informações sobre peças. Os clientes se conectam a servidores que possuem uma instância de PartRepository. O servidor, por sua vez, implementa 2 tipos de objetos: PartRepository (que é uma interface de acesso) e Parts (vários objetos remotos armazenados no servidor).
 
 ## Estrutura
 
@@ -54,12 +54,12 @@ O processo do cliente será usado para exercitar o sistema. Ele deve permitir qu
 
 #
 ## Compilar
-- dentro da pasta `distributed-parts`, execute o comando:
+- Dentro da pasta `distributed-parts`, execute o comando:
   ~~~ 
   $ javac -d bin src/*.java
   ~~~
 ## Executar
-- dentro da pasta `distributed-parts`, execute os seguintes comandos:
+- Dentro da pasta `distributed-parts`, execute os seguintes comandos:
   ~~~ 
   $ cd bin; rmiregistry
   ~~~
