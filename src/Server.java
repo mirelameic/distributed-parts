@@ -20,8 +20,7 @@ public class Server {
             System.out.println("Server bound");
 
         } catch (Exception e) {
-            System.err.println("Server exception:");
-            e.printStackTrace();
+            UserInterface.displayError("Server Exception.", e);
         }
     }
 }

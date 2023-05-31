@@ -18,6 +18,10 @@ public class UserInterface {
 
     public static void displayError(String errorMessage, Exception exception) {
         System.err.println(errorMessage);
-        exception.printStackTrace();
+        System.err.println(exception.getMessage());
+    }
+
+    public static void printLine() {
+        System.out.println();
     }
 }

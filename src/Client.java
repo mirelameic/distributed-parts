@@ -15,26 +15,26 @@ public class Client {
         }
 
         String serverName = args[0];
+        new UserInterface();
         
         try {
             initialize(serverName);
         } catch (Exception e) {
-            e.printStackTrace();
+            UserInterface.displayMessage("Erro initialize.");
         }
 
-        UserInterface userInterface = new UserInterface();
 
         try {
             boolean running = true;
 
             while (running) {
-                String command = userInterface.getUserCommand();
+                String command = UserInterface.getUserCommand();
 
-                if (command.equals("listp")) {
-                    listParts();
-                } else if (command.startsWith("bind ")) {
+                if (command.startsWith("bind ")) {
                     String newRepositoryName = command.substring(5);
                     bindRepository(newRepositoryName);
+                } else if (command.equals("listp")) {
+                    listParts();
                 } else if (command.startsWith("getp ")) {
                     String partCode = command.substring(5);
                     getPart(partCode);
@@ -47,16 +47,14 @@ public class Client {
                 } else if (command.equals("addp")) {
                     addPart();
                 } else if (command.equals("quit")) {
-                    running = false;
-                    return;
+                    UserInterface.displayMessage("Client terminated.");
+                    System.exit(0);
                 } else {
                     UserInterface.displayMessage("Invalid command.");
                 }
             }
-
-            UserInterface.displayMessage("Client terminated.");
         } catch (Exception e) {
-            userInterface.displayError("Client exception:", e);
+            UserInterface.displayError("Client exception.", e);
         }
     }
     
@@ -67,36 +65,59 @@ public class Client {
         UserInterface.displayMessage("Connected to repository: " + serverName);
     }
 
-    private static void listParts() throws Exception {
-        List<Part> allParts = currentRepository.getAllParts();
-        UserInterface.displayMessage("All Parts:");
-        for (Part part : allParts) {
-            UserInterface.displayMessage(part.getCode());
+    private static void bindRepository(String repositoryName) {
+        PartRepository repository;
+        try {
+            repository = (PartRepository) Naming.lookup(repositoryName);
+            currentRepository = repository;
+            UserInterface.displayMessage("Connected to repository: " + repositoryName);
+        } catch (Exception e) {
+            UserInterface.displayError("Bind exception.", e);
+        }
+    }
+    
+    private static void listParts() {
+        List<Part> allParts;
+        try {
+            allParts = currentRepository.getAllParts();
+            UserInterface.printLine();
+            UserInterface.displayMessage("All Parts:");
+            UserInterface.printLine();
+            for (Part part : allParts) {
+                UserInterface.displayMessage("Part: " + part.getName());
+                UserInterface.displayMessage("Code: " + part.getCode());
+                UserInterface.printLine();
+            }
+        } catch (RemoteException e) {
+            UserInterface.displayError("listParts exception.", e);
         }
     }
 
-    private static void bindRepository(String repositoryName) throws Exception {
-        PartRepository repository = (PartRepository) Naming.lookup(repositoryName);
-        currentRepository = repository;
-        UserInterface.displayMessage("Connected to repository: " + repositoryName);
-    }
-
-    private static void getPart(String partCode) throws Exception {
-        Part part = currentRepository.getPart(partCode);
-        if (part != null) {
-            currentPart = part;
-            UserInterface.displayMessage("Part retrieved: " + part.getName());
-        } else {
-            UserInterface.displayMessage("Part not found.");
+    private static void getPart(String partCode) {
+        Part part;
+        try {
+            part = currentRepository.getPart(partCode);
+            if (part != null) {
+                currentPart = part;
+                UserInterface.displayMessage("Part retrieved: " + part.getName());
+            } else {
+                UserInterface.displayMessage("Part not found.");
+            }
+        } catch (RemoteException e) {
+            UserInterface.displayError("getPart exception.", e);
         }
     }
 
-    private static void showPart() throws RemoteException {
+    private static void showPart() {
         if (currentPart != null) {
             UserInterface.displayMessage("Part details:");
-            UserInterface.displayMessage("Code: " + currentPart.getCode());
-            UserInterface.displayMessage("Name: " + currentPart.getName());
-            UserInterface.displayMessage("Description: " + currentPart.getDescription());
+            try {
+                UserInterface.displayMessage("Code: " + currentPart.getCode());
+                UserInterface.displayMessage("Name: " + currentPart.getName());
+                UserInterface.displayMessage("Description: " + currentPart.getDescription());
+            } catch (RemoteException e) {
+                UserInterface.displayError("showPart exception.", e);
+            }
         } else {
             UserInterface.displayMessage("No current part selected.");
         }
@@ -132,7 +153,7 @@ public class Client {
             currentPart = newPart;
             UserInterface.displayMessage("New part added with code: " + newPart.getCode());
         } catch (Exception e) {
-            UserInterface.displayError("Error adding the part:", e);
+            UserInterface.displayError("Error adding the part.", e);
         }
     }
 }
