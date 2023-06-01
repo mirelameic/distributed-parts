@@ -7,4 +7,6 @@ public interface Part extends Remote{
     String getName() throws RemoteException;
     String getDescription() throws RemoteException;
     Map<Part, Integer> getSubParts() throws RemoteException;
+    void printInfo() throws RemoteException;
+    void printSubParts() throws RemoteException;
 }

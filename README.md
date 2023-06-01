@@ -67,7 +67,7 @@ O processo do cliente será usado para exercitar o sistema. Ele deve permitir qu
   ~~~
   $ java -cp bin Server <server_name> <port>
   ~~~
-  - Abra outro terminal. Troque `<server_name>` pelo nome do servidor (pré existente) que deseja conectar o cliente:
+  - Abra outro terminal:
   ~~~
-  $ java -cp bin Client <server_name>
+  $ java -cp bin Client
   ~~~

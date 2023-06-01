@@ -17,7 +17,7 @@ public class Server {
             Registry registry = LocateRegistry.createRegistry(port);
             Naming.rebind(serverName, repository);
 
-            System.out.println("Server bound");
+            UserInterface.displayMessage("Server bound");
 
         } catch (Exception e) {
             UserInterface.displayError("Server Exception.", e);

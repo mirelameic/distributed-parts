@@ -1,26 +1,29 @@
+import java.util.Arrays;
+
 import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 
 public class Client {
     private static PartRepository currentRepository;
     private static Part currentPart;
     private static List<Part> currentSubParts;
+    private static List<String> servers;
 
     public static void main(String[] args) {
-        if (args.length != 1) {
-            System.err.println("Usage: Client <server_name>");
-            System.exit(1);
-        }
-
-        String serverName = args[0];
         new UserInterface();
         
         try {
+            listAllServers();
+            UserInterface.displayMessage("Choose one server");
+            String serverName = UserInterface.getUserCommand();
             initialize(serverName);
         } catch (Exception e) {
-            UserInterface.displayMessage("Erro initialize.");
+            UserInterface.displayError("Erro initialize.", e);
+            System.exit(1);
         }
 
 
@@ -58,6 +61,14 @@ public class Client {
         }
     }
     
+    public static void listAllServers() throws Exception{
+        Registry registry = LocateRegistry.getRegistry();
+        String[] registryList = registry.list();
+        for(String element : registryList){
+            UserInterface.displayMessage(element);
+        }
+    }
+
     public static void initialize(String serverName) throws Exception{
         // Assume que o servidor está sendo executado localmente
         String serverURL = "//localhost/" + serverName;
@@ -84,9 +95,7 @@ public class Client {
             UserInterface.displayMessage("All Parts:");
             UserInterface.printLine();
             for (Part part : allParts) {
-                UserInterface.displayMessage("Part: " + part.getName());
-                UserInterface.displayMessage("Code: " + part.getCode());
-                UserInterface.printLine();
+                part.printInfo();
             }
         } catch (RemoteException e) {
             UserInterface.displayError("listParts exception.", e);
@@ -110,13 +119,11 @@ public class Client {
 
     private static void showPart() {
         if (currentPart != null) {
-            UserInterface.displayMessage("Part details:");
+            UserInterface.displayMessage("Current Part details:");
             try {
-                UserInterface.displayMessage("Code: " + currentPart.getCode());
-                UserInterface.displayMessage("Name: " + currentPart.getName());
-                UserInterface.displayMessage("Description: " + currentPart.getDescription());
+                currentPart.printInfo();
             } catch (RemoteException e) {
-                UserInterface.displayError("showPart exception.", e);
+               UserInterface.displayError("showPart exception", e);
             }
         } else {
             UserInterface.displayMessage("No current part selected.");
