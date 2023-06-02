@@ -126,6 +126,12 @@ public class Client {
             UserInterface.displayMessage("Current Part details:");
             try {
                 currentPart.printInfo();
+                UserInterface.displayMessage("Repository: " + currentRepository.getName());
+                UserInterface.displayMessage("Subparts number: " + currentSubParts.size());
+                UserInterface.printLine();
+                UserInterface.displayMessage("Subparts list");
+                showSubParts();
+                UserInterface.printLine();
             } catch (RemoteException e) {
                UserInterface.displayError("showPart Exception.", e);
             }
@@ -167,6 +173,12 @@ public class Client {
             int subpartsQuantity = Integer.parseInt(UserInterface.getUserCommand());
             if (subpartsQuantity > 0) {
                 currentSubParts.put(currentPart, subpartsQuantity);
+                try{
+                    currentPart.setType(true);
+                }
+                catch(Exception e){
+                    UserInterface.displayError("Error setting agregated type", e);
+                }
                 UserInterface.displayMessage("Sub-part added.");
             } else {
                 UserInterface.displayMessage("Invalid quantity, please enter a positive number.");
@@ -214,7 +226,9 @@ public class Client {
     private static void showRepInfo() {
         try {
             UserInterface.displayMessage("Current Repository: " + currentRepository.getName());
-            currentRepository.getPartsQuantity();
+            UserInterface.displayMessage("Parts Quantity: " + currentRepository.getPartsQuantity());
+            //currentRepository.getPartsQuantity();
+            //currentRepository.getPartsQuantity();
         } catch (RemoteException e) {
             UserInterface.displayError("Error getting parts quantity.", e);
         }

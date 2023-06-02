@@ -7,5 +7,5 @@ public interface PartRepository extends Remote{
     Part getPart(String code) throws RemoteException;
     String getName() throws RemoteException;
     List<Part> getAllParts() throws RemoteException;
-    void getPartsQuantity() throws RemoteException;
+    Integer getPartsQuantity() throws RemoteException;
 }

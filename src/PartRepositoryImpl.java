@@ -30,8 +30,10 @@ public class PartRepositoryImpl extends UnicastRemoteObject implements PartRepos
         return new ArrayList<Part>(parts.values());
     }
 
-    public void getPartsQuantity() throws RemoteException{
-        if(!parts.isEmpty()){
+    public Integer getPartsQuantity() throws RemoteException{
+        return parts.size();
+        //UserInterface.displayMessage("Total quantity: " + parts.size());
+        /*if(!parts.isEmpty()){
             int totalQuantity = 0;
             
             for (Map.Entry<String, Part> entry : parts.entrySet()) {
@@ -57,6 +59,6 @@ public class PartRepositoryImpl extends UnicastRemoteObject implements PartRepos
 
         }else{
             UserInterface.displayMessage("Repository is empty.");
-        }
+        }*/
     }
 } 
