@@ -56,10 +56,10 @@ public class PartImpl implements Part, Serializable{
         UserInterface.displayMessage("Code: " + this.getCode());
         UserInterface.displayMessage("Agregada: " + this.getType());
         UserInterface.displayMessage("Description: " + this.getDescription());
-        /*if(this.getType() == true){
+        if(this.getType() == true){
             UserInterface.printLine();
         	printSubParts();	
-        }*/
+        }
         UserInterface.printLine();
     }
 

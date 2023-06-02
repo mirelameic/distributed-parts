@@ -173,12 +173,6 @@ public class Client {
             int subpartsQuantity = Integer.parseInt(UserInterface.getUserCommand());
             if (subpartsQuantity > 0) {
                 currentSubParts.put(currentPart, subpartsQuantity);
-                try{
-                    currentPart.setType(true);
-                }
-                catch(Exception e){
-                    UserInterface.displayError("Error setting agregated type", e);
-                }
                 UserInterface.displayMessage("Sub-part added.");
             } else {
                 UserInterface.displayMessage("Invalid quantity, please enter a positive number.");
