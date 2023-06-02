@@ -125,12 +125,6 @@ public class Client {
             UserInterface.displayMessage("Current Part details:");
             try {
                 currentPart.printInfo();
-                UserInterface.displayMessage("Repository: " + currentRepository.getName());
-                UserInterface.displayMessage("Subparts number: " + currentSubParts.size());
-                UserInterface.printLine();
-                UserInterface.displayMessage("Subparts list");
-                showSubParts();
-                UserInterface.printLine();
             } catch (RemoteException e) {
                UserInterface.displayError("showPart Exception.", e);
             }
