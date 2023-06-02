@@ -1,17 +1,15 @@
-import java.util.Arrays;
-
 import java.rmi.Naming;
 import java.rmi.RemoteException;
-import java.util.ArrayList;
-import java.util.List;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class Client {
     private static PartRepository currentRepository;
     private static Part currentPart;
-    private static List<Part> currentSubParts;
-    private static List<String> servers;
+    private static Map<Part, Integer> currentSubParts = new HashMap<>();
 
     public static void main(String[] args) {
         new UserInterface();
@@ -26,7 +24,6 @@ public class Client {
             System.exit(1);
         }
 
-
         try {
             boolean running = true;
 
@@ -38,11 +35,15 @@ public class Client {
                     bindRepository(newRepositoryName);
                 } else if (command.equals("listp")) {
                     listParts();
+                } else if (command.equals("lists")) {
+                    listAllServers();
                 } else if (command.startsWith("getp ")) {
                     String partCode = command.substring(5);
                     getPart(partCode);
                 } else if (command.equals("showp")) {
                     showPart();
+                } else if (command.equals("showsub")){
+                    showSubParts();
                 } else if (command.equals("clearlist")) {
                     clearSubPartsList();
                 } else if (command.equals("addsubpart")) {
@@ -64,6 +65,7 @@ public class Client {
     public static void listAllServers() throws Exception{
         Registry registry = LocateRegistry.getRegistry();
         String[] registryList = registry.list();
+        UserInterface.displayMessage("Available Servers: ");
         for(String element : registryList){
             UserInterface.displayMessage(element);
         }
@@ -83,7 +85,7 @@ public class Client {
             currentRepository = repository;
             UserInterface.displayMessage("Connected to repository: " + repositoryName);
         } catch (Exception e) {
-            UserInterface.displayError("Bind exception.", e);
+            UserInterface.displayError("bind Exception.", e);
         }
     }
     
@@ -98,7 +100,7 @@ public class Client {
                 part.printInfo();
             }
         } catch (RemoteException e) {
-            UserInterface.displayError("listParts exception.", e);
+            UserInterface.displayError("listParts Exception.", e);
         }
     }
 
@@ -113,7 +115,7 @@ public class Client {
                 UserInterface.displayMessage("Part not found.");
             }
         } catch (RemoteException e) {
-            UserInterface.displayError("getPart exception.", e);
+            UserInterface.displayError("getPart Exception.", e);
         }
     }
 
@@ -123,25 +125,50 @@ public class Client {
             try {
                 currentPart.printInfo();
             } catch (RemoteException e) {
-               UserInterface.displayError("showPart exception", e);
+               UserInterface.displayError("showPart Exception.", e);
             }
         } else {
             UserInterface.displayMessage("No current part selected.");
         }
     }
 
+    private static void showSubParts() {
+        if (!currentSubParts.isEmpty()) {
+            UserInterface.displayMessage("Current SubParts:");
+            for (Map.Entry<Part, Integer> entry : currentSubParts.entrySet()) {
+                Part subPart = entry.getKey();
+                int quantity = entry.getValue();
+    
+                try {
+                    UserInterface.displayMessage("Part: " + subPart.getName());
+                    UserInterface.displayMessage("Code: " + subPart.getCode());
+                    UserInterface.displayMessage("Description: " + subPart.getDescription());
+                    UserInterface.displayMessage("Quantity: " + quantity);
+                    UserInterface.printLine();
+                } catch (RemoteException e) {
+                    UserInterface.displayError("Error listing subParts", e);
+                }
+            }
+        } else {
+            UserInterface.displayMessage("No subparts available.");
+        }
+    }
+
     private static void clearSubPartsList() {
-        currentSubParts = null;
+        currentSubParts = new HashMap<>();
         UserInterface.displayMessage("Sub-parts list cleared.");
     }
 
     private static void addSubPart() {
         if (currentPart != null) {
-            if (currentSubParts == null) {
-                currentSubParts = new ArrayList<>();
+            UserInterface.displayMessage("Insert how many subparts you would like to add");
+            int subpartsQuantity = Integer.parseInt(UserInterface.getUserCommand());
+            if (subpartsQuantity > 0) {
+                currentSubParts.put(currentPart, subpartsQuantity);
+                UserInterface.displayMessage("Sub-part added.");
+            } else {
+                UserInterface.displayMessage("Invalid quantity, please enter a positive number.");
             }
-            currentSubParts.add(currentPart);
-            UserInterface.displayMessage("Sub-part added.");
         } else {
             UserInterface.displayMessage("No current part selected.");
         }
@@ -158,6 +185,16 @@ public class Client {
             Part newPart = new PartImpl(name, description);
             currentRepository.addPart(newPart);
             currentPart = newPart;
+
+            if (!currentSubParts.isEmpty()) {
+                for (Map.Entry<Part, Integer> entry : currentSubParts.entrySet()) {
+                    Part subPart = entry.getKey();
+                    int quantity = entry.getValue();
+                    newPart.addSubParts(subPart, quantity);
+                }
+                currentPart.setType(true);
+            }
+
             UserInterface.displayMessage("New part added with code: " + newPart.getCode());
         } catch (Exception e) {
             UserInterface.displayError("Error adding the part.", e);

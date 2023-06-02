@@ -8,7 +8,7 @@ public class UserInterface {
     }
 
     public static String getUserCommand() {
-        System.out.print("> ");
+        System.out.print(">> ");
         return scanner.nextLine().trim();
     }
 

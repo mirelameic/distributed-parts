@@ -38,10 +38,14 @@ O processo do cliente será usado para exercitar o sistema. Ele deve permitir qu
 - `bind` Faz o cliente se conectar a outro servidor e muda o repositório corrente. Este comando recebe o nome de um repositório e obtém do serviço de nomes uma referência para esse repositório, que passa a ser o repositório corrente.
 
 - `listp` Lista as peças do repositório corrente.
+  
+- `lists` Lista os servidores disponíveis para conexão.
 
 - `getp` Busca uma peça por código. A busca é efetuada no repositório corrente. Se encontrada, a peça passa a ser a nova peça corrente.
   
 - `showp` Mostra atributos da peça corrente.
+  
+- `showsub` Mostra atributos da lista de subpeças corrente.
   
 - `clearlist` Esvazia a lista de sub-peças corrente.
   

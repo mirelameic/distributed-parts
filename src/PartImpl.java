@@ -1,10 +1,10 @@
+import java.io.Serializable;
 import java.rmi.RemoteException;
-import java.rmi.server.UnicastRemoteObject;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-public class PartImpl extends UnicastRemoteObject implements Part{
+public class PartImpl implements Part, Serializable{
     private String code;
     private String name;
     private boolean agregada;
@@ -18,31 +18,35 @@ public class PartImpl extends UnicastRemoteObject implements Part{
         this.subParts = new HashMap<Part, Integer>();
     }
 
-    private String generateUniqueCode() {
+    private String generateUniqueCode(){
         return UUID.randomUUID().toString();
     }
 
-    public String getCode(){
+    public String getCode() throws RemoteException{
         return code;
     }
 
-    public String getName(){
+    public String getName() throws RemoteException{
         return name;
     }
 
-    public boolean getType(){
+    public boolean getType() throws RemoteException{
         return agregada;
     }
 
-    public String getDescription(){
+    public String getDescription() throws RemoteException{
         return description;
     }
 
-    public Map<Part, Integer> getSubParts(){
+    public Map<Part, Integer> getSubParts() throws RemoteException{
         return subParts;
     }
 
-    public void printInfo(){
+    public void setType(boolean newAgregada) throws RemoteException{
+        this.agregada = newAgregada;
+    }
+
+    public void printInfo() throws RemoteException{
         UserInterface.displayMessage("Part: " + this.getName());
         UserInterface.displayMessage("Code: " + this.getCode());
         UserInterface.displayMessage("Agregada: " + this.getType());
@@ -61,5 +65,9 @@ public class PartImpl extends UnicastRemoteObject implements Part{
             UserInterface.displayMessage("Quantity: " + quantity);
             UserInterface.printLine();
         }
+    }
+
+    public void addSubParts(Part part, int subpartsQuantity) throws RemoteException{
+        this.subParts.put(part, subpartsQuantity);
     }
 }
