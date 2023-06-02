@@ -50,6 +50,8 @@ public class Client {
                     addSubPart();
                 } else if (command.equals("addp")) {
                     addPart();
+                }else if (command.equals("showinfo")){
+                    showRepInfo();
                 } else if (command.equals("quit")) {
                     UserInterface.displayMessage("Client terminated.");
                     System.exit(0);
@@ -183,21 +185,38 @@ public class Client {
 
         try {
             Part newPart = new PartImpl(name, description);
-            currentRepository.addPart(newPart);
-            currentPart = newPart;
-
+            
             if (!currentSubParts.isEmpty()) {
                 for (Map.Entry<Part, Integer> entry : currentSubParts.entrySet()) {
                     Part subPart = entry.getKey();
                     int quantity = entry.getValue();
                     newPart.addSubParts(subPart, quantity);
                 }
-                currentPart.setType(true);
+                newPart.setType(true);
             }
-
+            currentRepository.addPart(newPart);
+            currentPart = newPart;
+            
             UserInterface.displayMessage("New part added with code: " + newPart.getCode());
         } catch (Exception e) {
             UserInterface.displayError("Error adding the part.", e);
+        }
+    }
+
+    // ------metodos que faltam------
+    // repositorios:
+    // examinando o nome do repositorio e o numero de pecas nele contidas (showRepInfo - n esta funcionando)
+
+    // peças:
+    // obtendo o (nome do) repositorio que a contem
+    // obtendo o numero de subcomponentes diretos e primitivos da peca
+    // listando suas sub-pecas
+    private static void showRepInfo() {
+        try {
+            UserInterface.displayMessage("Current Repository: " + currentRepository.getName());
+            currentRepository.getPartsQuantity();
+        } catch (RemoteException e) {
+            UserInterface.displayError("Error getting parts quantity.", e);
         }
     }
 }

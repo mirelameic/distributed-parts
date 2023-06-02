@@ -45,29 +45,32 @@ public class PartImpl implements Part, Serializable{
     public void setType(boolean newAgregada) throws RemoteException{
         this.agregada = newAgregada;
     }
-
+    
+    public void addSubParts(Part part, int subpartsQuantity) throws RemoteException{
+        this.subParts.put(part, subpartsQuantity);
+    }
+    
     public void printInfo() throws RemoteException{
         UserInterface.displayMessage("Part: " + this.getName());
         UserInterface.displayMessage("Code: " + this.getCode());
         UserInterface.displayMessage("Agregada: " + this.getType());
         UserInterface.displayMessage("Description: " + this.getDescription());
+        if(this.getType() == true){
+            UserInterface.printLine();
+        	printSubParts();	
+        }
         UserInterface.printLine();
     }
 
     public void printSubParts() throws RemoteException{
-        UserInterface.displayMessage("SubParts:");
+        UserInterface.displayMessage("SubParts de " + getName() +":");
         for (Map.Entry<Part, Integer> entry : subParts.entrySet()) {
             Part subParts = entry.getKey();
             int quantity = entry.getValue();
-            UserInterface.displayMessage("Part: " + subParts.getName());
-            UserInterface.displayMessage("Code: " + subParts.getCode());
-            UserInterface.displayMessage("Description: " + subParts.getDescription());
+            subParts.printInfo();
             UserInterface.displayMessage("Quantity: " + quantity);
             UserInterface.printLine();
         }
     }
 
-    public void addSubParts(Part part, int subpartsQuantity) throws RemoteException{
-        this.subParts.put(part, subpartsQuantity);
-    }
 }

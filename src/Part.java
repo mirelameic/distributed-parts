@@ -5,6 +5,7 @@ import java.util.Map;
 public interface Part extends Remote{
     String getCode() throws RemoteException;
     String getName() throws RemoteException;
+    public boolean getType() throws RemoteException;
     String getDescription() throws RemoteException;
     Map<Part, Integer> getSubParts() throws RemoteException;
     public void setType(boolean newAgregada) throws RemoteException;

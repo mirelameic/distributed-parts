@@ -22,7 +22,41 @@ public class PartRepositoryImpl extends UnicastRemoteObject implements PartRepos
         return parts.get(code);
     }
 
+    public String getName() throws RemoteException{
+        return this.name;
+    }
+
     public List<Part> getAllParts() throws RemoteException{
         return new ArrayList<Part>(parts.values());
+    }
+
+    public void getPartsQuantity() throws RemoteException{
+        if(!parts.isEmpty()){
+            int totalQuantity = 0;
+            
+            for (Map.Entry<String, Part> entry : parts.entrySet()) {
+                Part part = entry.getValue();
+                UserInterface.displayMessage("Part: " + part.getName());
+                
+                if (part.getType()) {
+                    Map<Part, Integer> subParts = part.getSubParts();
+                    
+                    for (Map.Entry<Part, Integer> subEntry : subParts.entrySet()) {
+                        Part subPart = subEntry.getKey();
+                        int quantity = subEntry.getValue();
+                        UserInterface.displayMessage("  SubPart: " + subPart.getName());
+                        UserInterface.displayMessage("  Quantity: " + quantity);
+                        totalQuantity += quantity;
+                    }
+                }
+                
+                UserInterface.printLine();
+            }
+            
+            UserInterface.displayMessage("Total quantity: " + totalQuantity);
+
+        }else{
+            UserInterface.displayMessage("Repository is empty.");
+        }
     }
 } 

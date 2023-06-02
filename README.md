@@ -52,6 +52,8 @@ O processo do cliente será usado para exercitar o sistema. Ele deve permitir qu
 - `addsubpart` Adiciona à lista de sub-peças corrente N unidades da peça corrente.
   
 - `addp` Adiciona uma peça ao repositório corrente. A lista de sub-peças corrente é usada como lista de subcomponentes diretos da nova peça. (É só para isto que existe a lista de sub-peças corrente).
+
+- `showinfo` Mostra o nome e a quantidade de peças do repositório corrente.
   
 - `quit` Encerra a execução do cliente.
 
