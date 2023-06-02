@@ -9,13 +9,15 @@ public class PartImpl implements Part, Serializable{
     private String name;
     private boolean agregada;
     private String description;
+    private final String server;
     private Map<Part, Integer> subParts;
 
-    public PartImpl(String name, String description) throws RemoteException{
+    public PartImpl(String name, String description, String server) throws RemoteException{
         this.code = generateUniqueCode();
         this.name = name;
-        this.description = description;
         this.agregada = false;
+        this.description = description;
+        this.server = server;
         this.subParts = new HashMap<Part, Integer>();
     }
 
@@ -39,6 +41,10 @@ public class PartImpl implements Part, Serializable{
         return description;
     }
 
+    public String getServer() throws RemoteException{
+        return server;
+    }
+
     public Map<Part, Integer> getSubParts() throws RemoteException{
         return subParts;
     }
@@ -56,6 +62,7 @@ public class PartImpl implements Part, Serializable{
         UserInterface.displayMessage("Code: " + this.getCode());
         UserInterface.displayMessage("Agregada: " + this.getType());
         UserInterface.displayMessage("Description: " + this.getDescription());
+        UserInterface.displayMessage("Server: " + this.getServer());
         if(this.getType() == true){
             UserInterface.printLine();
         	printSubParts();	
@@ -64,7 +71,7 @@ public class PartImpl implements Part, Serializable{
     }
 
     public void printSubParts() throws RemoteException{
-        UserInterface.displayMessage("SubParts de " + getName() +":");
+        UserInterface.displayMessage("SubParts de " + this.getName() +":");
         for (Map.Entry<Part, Integer> entry : subParts.entrySet()) {
             Part subParts = entry.getKey();
             int quantity = entry.getValue();

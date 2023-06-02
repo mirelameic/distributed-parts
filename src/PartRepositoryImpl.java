@@ -1,8 +1,6 @@
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class PartRepositoryImpl extends UnicastRemoteObject implements PartRepository{
@@ -26,8 +24,8 @@ public class PartRepositoryImpl extends UnicastRemoteObject implements PartRepos
         return this.name;
     }
 
-    public List<Part> getAllParts() throws RemoteException{
-        return new ArrayList<Part>(parts.values());
+    public Map<String, Part> getParts() throws RemoteException{
+        return this.parts;
     }
 
     public Integer getPartsQuantity() throws RemoteException{

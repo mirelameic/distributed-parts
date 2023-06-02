@@ -91,14 +91,19 @@ public class Client {
     }
     
     private static void listParts() {
-        List<Part> allParts;
         try {
-            allParts = currentRepository.getAllParts();
-            UserInterface.printLine();
-            UserInterface.displayMessage("All Parts:");
-            UserInterface.printLine();
-            for (Part part : allParts) {
-                part.printInfo();
+            Map<String, Part> currentRep = currentRepository.getParts();
+            
+            if (currentRep.isEmpty()) {
+                UserInterface.displayMessage("No parts yet.");
+            } else {
+                UserInterface.printLine();
+                UserInterface.displayMessage("All Parts:");
+                UserInterface.printLine();
+                for (Map.Entry<String, Part> entry : currentRep.entrySet()) {
+                    Part part = entry.getValue();
+                    part.printInfo();
+                }
             }
         } catch (RemoteException e) {
             UserInterface.displayError("listParts Exception.", e);
@@ -135,15 +140,13 @@ public class Client {
 
     private static void showSubParts() {
         if (!currentSubParts.isEmpty()) {
+            UserInterface.printLine();
             UserInterface.displayMessage("Current SubParts:");
             for (Map.Entry<Part, Integer> entry : currentSubParts.entrySet()) {
                 Part subPart = entry.getKey();
                 int quantity = entry.getValue();
-    
                 try {
-                    UserInterface.displayMessage("Part: " + subPart.getName());
-                    UserInterface.displayMessage("Code: " + subPart.getCode());
-                    UserInterface.displayMessage("Description: " + subPart.getDescription());
+                    subPart.printInfo();
                     UserInterface.displayMessage("Quantity: " + quantity);
                     UserInterface.printLine();
                 } catch (RemoteException e) {
@@ -151,7 +154,7 @@ public class Client {
                 }
             }
         } else {
-            UserInterface.displayMessage("No subparts available.");
+            UserInterface.displayMessage("No subparts yet.");
         }
     }
 
@@ -183,7 +186,7 @@ public class Client {
         String description = UserInterface.getUserCommand();
 
         try {
-            Part newPart = new PartImpl(name, description);
+            Part newPart = new PartImpl(name, description, currentRepository.getName());
             
             if (!currentSubParts.isEmpty()) {
                 for (Map.Entry<Part, Integer> entry : currentSubParts.entrySet()) {

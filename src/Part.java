@@ -7,6 +7,7 @@ public interface Part extends Remote{
     String getName() throws RemoteException;
     public boolean getType() throws RemoteException;
     String getDescription() throws RemoteException;
+    public String getServer() throws RemoteException;
     Map<Part, Integer> getSubParts() throws RemoteException;
     public void setType(boolean newAgregada) throws RemoteException;
     void printInfo() throws RemoteException;
