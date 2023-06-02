@@ -74,7 +74,6 @@ public class Client {
     }
 
     public static void initialize(String serverName) throws Exception{
-        // Assume que o servidor está sendo executado localmente
         String serverURL = "//localhost/" + serverName;
         currentRepository = (PartRepository) Naming.lookup(serverURL);
         UserInterface.displayMessage("Connected to repository: " + serverName);
@@ -209,20 +208,10 @@ public class Client {
         }
     }
 
-    // ------metodos que faltam------
-    // repositorios:
-    // examinando o nome do repositorio e o numero de pecas nele contidas (showRepInfo - n esta funcionando)
-
-    // peças:
-    // obtendo o (nome do) repositorio que a contem
-    // obtendo o numero de subcomponentes diretos e primitivos da peca
-    // listando suas sub-pecas
     private static void showRepInfo() {
         try {
             UserInterface.displayMessage("Current Repository: " + currentRepository.getName());
             UserInterface.displayMessage("Parts Quantity: " + currentRepository.getPartsQuantity());
-            //currentRepository.getPartsQuantity();
-            //currentRepository.getPartsQuantity();
         } catch (RemoteException e) {
             UserInterface.displayError("Error getting parts quantity.", e);
         }
